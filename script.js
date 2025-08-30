@@ -1,32 +1,82 @@
-// Landing overlay
-const landing = document.getElementById('landing');
-const bgMusic = document.getElementById('bg-music');
+// SONG LIST - add your files here
+const songs = [
+    "music.mp3",
+    "music2.mp3", // add more if you have
+    "music3.mp3"
+].filter(src => {
+    // Check if file exists
+    const req = new XMLHttpRequest();
+    req.open('HEAD', src, false);
+    req.send();
+    return req.status !== 404;
+});
 
+let currentSong = Math.floor(Math.random() * songs.length);
+const bgMusic = new Audio();
+bgMusic.src = songs[currentSong];
+bgMusic.loop = false;
+
+// LANDING PAGE
+const landing = document.getElementById('landing');
 landing.addEventListener('click', () => {
     landing.style.opacity = '0';
     setTimeout(() => { landing.style.display = 'none'; }, 800);
-    bgMusic.play();
+    if(songs.length > 0) bgMusic.play();
 });
 
-// Custom cursor
+// CUSTOM CURSOR
 const cursor = document.getElementById('cursor-dot');
 document.addEventListener('mousemove', e => {
     cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
 });
 
-// Speaker toggle & volume
-const speaker = document.getElementById('speaker');
+// MUSIC CONTROLS
+const playPauseBtn = document.getElementById('play-pause');
+const prevBtn = document.getElementById('prev-song');
+const nextBtn = document.getElementById('next-song');
 const volumeSlider = document.getElementById('volume-slider');
 
-speaker.addEventListener('click', () => {
-    if(bgMusic.paused) bgMusic.play();
-    else bgMusic.pause();
+function playSong() {
+    if(songs.length === 0) return;
+    bgMusic.src = songs[currentSong];
+    bgMusic.play();
+    playPauseBtn.textContent = "II";
+}
+
+function pauseSong() {
+    bgMusic.pause();
+    playPauseBtn.textContent = "▶";
+}
+
+playPauseBtn.addEventListener('click', () => {
+    if(bgMusic.paused) playSong();
+    else pauseSong();
 });
+
+prevBtn.addEventListener('click', () => {
+    if(songs.length === 0) return;
+    currentSong = (currentSong - 1 + songs.length) % songs.length;
+    playSong();
+});
+
+nextBtn.addEventListener('click', () => {
+    if(songs.length === 0) return;
+    currentSong = (currentSong + 1) % songs.length;
+    playSong();
+});
+
 volumeSlider.addEventListener('input', () => {
     bgMusic.volume = volumeSlider.value;
 });
 
-// Particle canvas
+// AUTO NEXT SONG
+bgMusic.addEventListener('ended', () => {
+    if(songs.length === 0) return;
+    currentSong = (currentSong + 1) % songs.length;
+    playSong();
+});
+
+// PARTICLE CANVAS
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
