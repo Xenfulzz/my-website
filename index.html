@@ -1,39 +1,602 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Road To Get Xenfulz Unbanned</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shampoo & Conditioning – Knowledge Answers (K13–K37)</title>
+  <style>
+    :root{
+      --page-bg:#ffffff;
+      --app-bg:#f3f4f6;
+      --ink:#111827;
+      --muted:#6b7280;
+      --rule:#e5e7eb;
+      --accent:#2563eb;
+      --chip:#eef2ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      color:var(--ink);
+      background:var(--app-bg);
+      line-height:1.65;
+    }
+
+    /* ===== PASSWORD OVERLAY + BLUR ===== */
+    .lock-screen{
+      position:fixed;
+      inset:0;
+      background:rgba(17,24,39,.55);
+      backdrop-filter: blur(10px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      padding:16px;
+    }
+    .lock-box{
+      background:#ffffff;
+      padding:32px 36px;
+      border-radius:16px;
+      box-shadow:0 25px 60px rgba(0,0,0,.25);
+      text-align:center;
+      width:min(380px, 92%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    .lock-box h2{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    .lock-box p{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .lock-box input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--rule);
+      font-size:15px;
+      margin-bottom:14px;
+      outline:none;
+    }
+    .lock-box input:focus{
+      border-color:#bfdbfe;
+      box-shadow:0 0 0 4px rgba(37,99,235,.15);
+    }
+    .lock-box button{
+      width:100%;
+      padding:12px;
+      border-radius:999px;
+      border:none;
+      background:var(--accent);
+      color:white;
+      font-size:15px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .lock-box button:hover{ opacity:.92; }
+    .error{
+      color:#dc2626;
+      font-size:13px;
+      margin-top:10px;
+      display:none;
+    }
+
+    /* blur page until unlocked */
+    .blurred{
+      filter: blur(12px);
+      pointer-events:none;
+      user-select:none;
+    }
+
+    /* ===== YOUR ORIGINAL STYLES ===== */
+    .topbar{
+      position:sticky; top:0;
+      background:rgba(243,244,246,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--rule);
+      padding:12px 16px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .topbar .title{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .topbar .meta{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--muted);
+      font-size:14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      background:var(--chip);
+      color:#1e3a8a;
+      border:1px solid #dbeafe;
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    main{
+      padding:26px 16px 60px;
+      display:flex;
+      justify-content:center;
+    }
+
+    /* “Word document” page */
+    .page{
+      width:min(920px, 100%);
+      background:var(--page-bg);
+      border:1px solid var(--rule);
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      padding:56px 64px;
+    }
+    @media (max-width: 720px){
+      .page{ padding:28px 20px; border-radius:10px; }
+    }
+
+    h1{
+      font-size:34px;
+      margin:0 0 6px;
+      line-height:1.2;
+    }
+    .subtitle{
+      color:var(--muted);
+      margin:0 0 22px;
+      font-size:15px;
+    }
+
+    .contents{
+      border:1px solid var(--rule);
+      background:#fafafa;
+      border-radius:10px;
+      padding:14px 16px;
+      margin:18px 0 26px;
+    }
+    .contents h2{
+      border:none;
+      padding:0;
+      margin:0 0 6px;
+      font-size:14px;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    .contents a{
+      color:var(--accent);
+      text-decoration:none;
+    }
+    .contents a:hover{ text-decoration:underline; }
+    .contents ul{
+      margin:8px 0 0 18px;
+      padding:0;
+      columns:2;
+      column-gap:26px;
+    }
+    @media (max-width: 720px){
+      .contents ul{ columns:1; }
+    }
+
+    h2{
+      margin:28px 0 10px;
+      padding-top:18px;
+      border-top:1px solid var(--rule);
+      font-size:20px;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+
+    .kblock{
+      margin:12px 0 0;
+      padding:14px 16px 10px;
+      border:1px solid var(--rule);
+      border-radius:10px;
+      background:#ffffff;
+    }
+    .khead{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:8px;
+    }
+    .kcode{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      font-weight:900;
+      color:var(--accent);
+      letter-spacing:.3px;
+    }
+    .ktitle{
+      flex:1;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      font-weight:800;
+    }
+    .kblock ul{
+      margin:10px 0 10px 22px;
+    }
+    .small{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:24px;
+      border-top:1px dashed var(--rule);
+      padding-top:14px;
+    }
+
+    /* print like a doc */
+    @media print{
+      body{ background:#fff; }
+      .topbar{ display:none; }
+      .page{ border:none; box-shadow:none; padding:0; }
+      a{ color:inherit; text-decoration:none; }
+
+      /* Don't print lock screen or blur */
+      #lockScreen{ display:none !important; }
+      #content{ filter:none !important; pointer-events:auto !important; }
+    }
+  </style>
 </head>
+
 <body>
-  <header>
-    <h1>Help Fund Xenfulz Unban</h1>
-  </header>
 
-  <main class="container">
-    <p>
-      We’re raising funds to help cover the costs associated with Xenfulz’s unban. Any support is greatly appreciated! 
-    </p>
+  <!-- 🔐 PASSWORD SCREEN -->
+  <div class="lock-screen" id="lockScreen" aria-modal="true" role="dialog">
+    <div class="lock-box">
+      <h2>Restricted Access</h2>
+      <p>Enter the password to view this document</p>
+      <input type="password" id="passwordInput" placeholder="Password" autocomplete="off" />
+      <button type="button" id="accessBtn">Access</button>
+      <div class="error" id="errorMsg">Incorrect password</div>
+    </div>
+  </div>
 
-    <a href="https://paypal.me/Xenfulz" target="_blank" class="donate-btn">
-      Support the Project
-    </a>
-  </main>
+  <!-- ✅ WRAPPED CONTENT (BLURRED UNTIL UNLOCKED) -->
+  <div id="content" class="blurred">
 
-  <section class="section-box" id="mission">
-    <h2>Mission Objectives</h2>
-    <ul>
-      <li>To get Xenfulz unbanned!</li>
-      <li>Free Xenfulz from the unfair punishment</li>
-      <li>Spread awareness</li>
-      <li>Ples ;)</li>
-    </ul>
-  </section>
+    <header class="topbar">
+      <div class="title">Shampoo & Conditioning — Knowledge Answers</div>
+      <div class="meta">
+        <span class="pill">K13–K37</span>
+        <span>Printable “Word document” layout</span>
+      </div>
+    </header>
 
-  <footer>
-    © 2025 Xenco - Powered by Xenfulz
-  </footer>
+    <main>
+      <article class="page">
+        <h1>Knowledge Questions (K13–K37)</h1>
+        <p class="subtitle">Hairdressing: Shampooing, Conditioning & Treatments — written answers</p>
+
+        <section class="contents" aria-label="Contents">
+          <h2>Contents</h2>
+          <ul>
+            <li><a href="#k13">K13</a></li>
+            <li><a href="#k17">K17</a></li>
+            <li><a href="#k18">K18</a></li>
+            <li><a href="#k19">K19</a></li>
+            <li><a href="#k20">K20</a></li>
+            <li><a href="#k21">K21</a></li>
+            <li><a href="#k22">K22</a></li>
+            <li><a href="#k23">K23</a></li>
+            <li><a href="#k24">K24</a></li>
+            <li><a href="#k25">K25</a></li>
+            <li><a href="#k26">K26</a></li>
+            <li><a href="#k30">K30</a></li>
+            <li><a href="#k31">K31</a></li>
+            <li><a href="#k32">K32</a></li>
+            <li><a href="#k33">K33</a></li>
+            <li><a href="#k34">K34</a></li>
+            <li><a href="#k35">K35</a></li>
+            <li><a href="#k36">K36</a></li>
+            <li><a href="#k37">K37</a></li>
+          </ul>
+        </section>
+
+        <h2>Answers</h2>
+
+        <section class="kblock" id="k13">
+          <div class="khead">
+            <div class="kcode">K13</div>
+            <div class="ktitle">The importance of questioning clients to establish contra-indications</div>
+          </div>
+          <ul>
+            <li>Identifies medical conditions, scalp disorders, allergies and sensitivities.</li>
+            <li>Prevents harm, irritation or infection.</li>
+            <li>Ensures the service is safe and suitable.</li>
+            <li>Helps decide whether to adapt, postpone or refuse the service.</li>
+            <li>Protects the client and stylist legally and professionally.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k17">
+          <div class="khead">
+            <div class="kcode">K17</div>
+            <div class="ktitle">How to identify hair and scalp conditions and their causes</div>
+          </div>
+          <ul>
+            <li>Visual inspection of the hair and scalp.</li>
+            <li>Physical examination by touch.</li>
+            <li>Questioning the client about lifestyle, health and hair routine.</li>
+            <li>Causes include over-washing, incorrect products, heat damage, chemical services and medical or hormonal issues.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k18">
+          <div class="khead">
+            <div class="kcode">K18</div>
+            <div class="ktitle">How and why contra-indications can affect the service</div>
+          </div>
+          <ul>
+            <li>Some contra-indications require adapting the service.</li>
+            <li>Some may require postponement or refusal.</li>
+            <li>Prevents the condition from worsening.</li>
+            <li>Reduces risk of infection or injury.</li>
+            <li>Ensures client comfort and safety.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k19">
+          <div class="khead">
+            <div class="kcode">K19</div>
+            <div class="ktitle">How different hair and scalp conditions affect product selection</div>
+          </div>
+          <ul>
+            <li>Dry hair requires moisturising and nourishing products.</li>
+            <li>Oily scalp requires lightweight or balancing products.</li>
+            <li>Coloured hair requires colour-safe products.</li>
+            <li>Sensitive scalp requires mild and soothing products.</li>
+            <li>Correct selection improves results and hair condition.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k20">
+          <div class="khead">
+            <div class="kcode">K20</div>
+            <div class="ktitle">How shampoo and water act together to cleanse the hair</div>
+          </div>
+          <ul>
+            <li>Water wets the hair and loosens dirt and oils.</li>
+            <li>Shampoo emulsifies grease and product build-up.</li>
+            <li>Massage helps lift impurities from the scalp.</li>
+            <li>Rinsing removes dirt and residue from the hair.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k21">
+          <div class="khead">
+            <div class="kcode">K21</div>
+            <div class="ktitle">When and how massage techniques should be used when conditioning</div>
+          </div>
+          <ul>
+            <li>Pressure adjusted to hair length and density.</li>
+            <li>Light pressure for fine or fragile hair.</li>
+            <li>Firmer pressure for thick or dense hair.</li>
+            <li>Helps distribute conditioner evenly.</li>
+            <li>Improves relaxation and absorption.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k22">
+          <div class="khead">
+            <div class="kcode">K22</div>
+            <div class="ktitle">The effects of water temperature on the scalp and hair structure</div>
+          </div>
+          <ul>
+            <li>Warm water opens the cuticle and aids cleansing.</li>
+            <li>Cool water closes the cuticle and adds shine.</li>
+            <li>Cool water helps calm the scalp.</li>
+            <li>Very hot water can dry the scalp and cause irritation.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k23">
+          <div class="khead">
+            <div class="kcode">K23</div>
+            <div class="ktitle">The importance of detangling the hair from ends to roots</div>
+          </div>
+          <ul>
+            <li>Reduces tension on the hair.</li>
+            <li>Prevents breakage and split ends.</li>
+            <li>More comfortable for the client.</li>
+            <li>Especially important when hair is wet.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k24">
+          <div class="khead">
+            <div class="kcode">K24</div>
+            <div class="ktitle">How the pH value of products affects the hair</div>
+          </div>
+          <ul>
+            <li>Shampoo is slightly alkaline and opens the cuticle.</li>
+            <li>Conditioner is acidic and closes the cuticle.</li>
+            <li>Correct pH improves strength, smoothness and shine.</li>
+            <li>Incorrect pH can cause dryness and damage.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k25">
+          <div class="khead">
+            <div class="kcode">K25</div>
+            <div class="ktitle">How product build-up affects hair, scalp and services</div>
+          </div>
+          <ul>
+            <li>Hair becomes dull, heavy and greasy.</li>
+            <li>Scalp may feel itchy or congested.</li>
+            <li>Reduces effectiveness of treatments and colouring services.</li>
+            <li>Can affect styling and finishing results.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k26">
+          <div class="khead">
+            <div class="kcode">K26</div>
+            <div class="ktitle">How shampoos and conditioning products affect hair and scalp</div>
+          </div>
+          <ul>
+            <li>Shampoo cleanses the scalp and hair.</li>
+            <li>Removes dirt, oil and build-up.</li>
+            <li>Conditioner moisturises and smooths the hair.</li>
+            <li>Improves manageability and protects the cuticle.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k30">
+          <div class="khead">
+            <div class="kcode">K30</div>
+            <div class="ktitle">What may happen if incorrect shampooing and conditioning products are used</div>
+          </div>
+          <ul>
+            <li>Hair may become dry, greasy or limp.</li>
+            <li>Scalp irritation or allergic reactions may occur.</li>
+            <li>Poor service results.</li>
+            <li>Client dissatisfaction.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k31">
+          <div class="khead">
+            <div class="kcode">K31</div>
+            <div class="ktitle">When and how rotary, effleurage and friction massage techniques are used</div>
+          </div>
+          <ul>
+            <li>Rotary massage uses small circular movements with finger pads.</li>
+            <li>Effleurage uses long, smooth stroking movements.</li>
+            <li>Friction uses firm rubbing movements to stimulate the scalp.</li>
+            <li>Pressure adjusted to hair length and density.</li>
+            <li>Used during shampooing to cleanse and relax.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k32">
+          <div class="khead">
+            <div class="kcode">K32</div>
+            <div class="ktitle">The purpose and benefits of scalp massage</div>
+          </div>
+          <ul>
+            <li>Improves blood circulation.</li>
+            <li>Encourages healthy hair growth.</li>
+            <li>Relieves tension.</li>
+            <li>Promotes relaxation.</li>
+            <li>Enhances product effectiveness.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k33">
+          <div class="khead">
+            <div class="kcode">K33</div>
+            <div class="ktitle">How to use and handle equipment during conditioning and treatments</div>
+          </div>
+          <ul>
+            <li>Equipment must be used correctly and safely.</li>
+            <li>Follow manufacturer instructions.</li>
+            <li>Maintain hygiene and cleanliness.</li>
+            <li>Prevent cross-contamination.</li>
+            <li>Avoid injury to client or damage to hair.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k34">
+          <div class="khead">
+            <div class="kcode">K34</div>
+            <div class="ktitle">The importance of removing conditioning and treatment products</div>
+          </div>
+          <ul>
+            <li>Prevents product build-up.</li>
+            <li>Ensures hair is not weighed down.</li>
+            <li>Improves the final finish.</li>
+            <li>Prevents scalp irritation.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k35">
+          <div class="khead">
+            <div class="kcode">K35</div>
+            <div class="ktitle">The importance of removing excess water at the end of the service</div>
+          </div>
+          <ul>
+            <li>Prevents dilution of products.</li>
+            <li>Improves treatment effectiveness.</li>
+            <li>Makes hair easier to manage.</li>
+            <li>Ensures better styling results.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k36">
+          <div class="khead">
+            <div class="kcode">K36</div>
+            <div class="ktitle">How heat affects the hair during conditioning treatments</div>
+          </div>
+          <ul>
+            <li>Gentle heat opens the cuticle.</li>
+            <li>Helps treatments penetrate the hair shaft.</li>
+            <li>Excessive heat weakens the hair.</li>
+            <li>Can cause dryness and damage if not controlled.</li>
+          </ul>
+        </section>
+
+        <section class="kblock" id="k37">
+          <div class="khead">
+            <div class="kcode">K37</div>
+            <div class="ktitle">The importance of providing advice and recommendations</div>
+          </div>
+          <ul>
+            <li>Helps clients maintain hair condition at home.</li>
+            <li>Encourages correct product use.</li>
+            <li>Builds trust and professionalism.</li>
+            <li>Increases client satisfaction and loyalty.</li>
+          </ul>
+        </section>
+
+        <p class="small">
+          Tip: Press <strong>Ctrl/Cmd + P</strong> to print or “Save as PDF” — it’s formatted to look like a document.
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const PASSWORD = "Xenfulz";
+
+    function unlock(){
+      const inputEl = document.getElementById("passwordInput");
+      const errorEl = document.getElementById("errorMsg");
+      const value = (inputEl.value || "").trim();
+
+      if(value === PASSWORD){
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("content").classList.remove("blurred");
+        errorEl.style.display = "none";
+      } else {
+        errorEl.style.display = "block";
+      }
+    }
+
+    // Click button
+    document.getElementById("accessBtn").addEventListener("click", unlock);
+
+    // Press Enter to unlock
+    document.getElementById("passwordInput").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") unlock();
+    });
+
+    // Auto-focus cursor in the password box
+    window.addEventListener("load", () => {
+      document.getElementById("passwordInput").focus();
+    });
+  </script>
+
 </body>
 </html>
-
