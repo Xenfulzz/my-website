@@ -2,192 +2,351 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NoofNoof Leak</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>No Innocence</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Courier New", monospace;
-}
+* { box-sizing: border-box; }
 
 body {
-    height: 100vh;
-    background: radial-gradient(circle at top, #111 0%, #000 70%);
-    color: #e5e5e5;
-    overflow: hidden;
-}
-
-/* Grain / noise */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.08;
-    pointer-events: none;
-}
-
-/* LOGIN SCREEN */
-.login {
-    position: absolute;
-    inset: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff4d8d, #c9184a);
     display: flex;
-    align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
 }
 
-.login-box {
-    background: rgba(0,0,0,0.85);
-    border: 1px solid rgba(255,0,0,0.2);
-    padding: 40px;
-    width: 340px;
+.container {
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    border-radius: 25px;
+    width: 100%;
+    max-width: 420px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(255,0,0,0.15);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
-.login-box h1 {
-    color: #ff3b3b;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-.login-box p {
-    color: #aaa;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
+h1 { font-size: 26px; margin-bottom: 8px; }
+.subtitle { font-size: 13px; opacity: 0.8; margin-bottom: 20px; }
 
 input {
     width: 100%;
-    padding: 12px;
-    background: #050505;
-    border: 1px solid #333;
-    color: #fff;
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 14px;
+    border: none;
+    text-align: center;
     font-size: 16px;
-    outline: none;
 }
 
 button {
     width: 100%;
-    margin-top: 15px;
-    padding: 12px;
-    background: #0a0a0a;
-    border: 1px solid #ff3b3b;
-    color: #ff3b3b;
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 14px;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
-    letter-spacing: 1px;
 }
 
-button:hover {
-    background: #ff3b3b;
-    color: #000;
+.primary { background: white; color: #c9184a; }
+.danger { background: #ff0a54; color: white; }
+.hidden { display: none; }
+
+.name-display {
+    margin: 30px 0;
+    font-size: 28px;
+    font-weight: bold;
+    min-height: 36px;
 }
 
-.error {
-    margin-top: 12px;
-    font-size: 13px;
-    color: #ff4d4d;
-    display: none;
+.question-box {
+    margin-top: 15px;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.2);
+    min-height: 80px;
+    cursor: pointer;
 }
 
-/* CONTENT */
-.content {
-    display: none;
-    padding: 50px;
-    animation: fadeIn 1.2s ease;
+.scoreboard { margin-top: 14px; font-size: 14px; }
+
+.winner-text {
+    font-size: 24px;
+    animation: glow 1s infinite;
 }
 
-.card {
-    max-width: 720px;
-    margin: auto;
-    background: rgba(0,0,0,0.9);
-    border: 1px solid rgba(255,0,0,0.25);
-    padding: 30px;
-    box-shadow: 0 0 60px rgba(255,0,0,0.15);
-}
-
-.card h2 {
-    color: #ff3b3b;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #222;
-    padding-bottom: 10px;
-}
-
-.card ul {
-    list-style: none;
-}
-
-.card li {
-    padding: 10px 0;
-    border-bottom: 1px solid #111;
-    font-size: 15px;
-}
-
-.card strong {
-    color: #aaa;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes glow {
+    0% { text-shadow: 0 0 5px white; }
+    50% { text-shadow: 0 0 20px white; }
+    100% { text-shadow: 0 0 5px white; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="login" id="login">
-    <div class="login-box">
-        <h1>XENFULZ LEAK FILES</h1>
-        <p>Unauthorized access is logged</p>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="check()">UNLOCK</button>
-        <div class="error" id="error">ACCESS DENIED</div>
-    </div>
+<div class="container">
+<h1>No Innocence</h1>
+<div class="subtitle">Spin. Reveal. Survive.</div>
+
+<div id="setup">
+<input id="player1" placeholder="Player 1 Name">
+<input id="player2" placeholder="Player 2 Name">
+<button class="primary" onclick="startGame()">Begin</button>
 </div>
 
-<!-- CONTENT -->
-<div class="content" id="content">
-    <div class="card">
-        <h2>NoofNoof Leak</h2>
-        <ul>
-            <li><strong>Name:</strong> Noah (surname unknown)</li>
-            <li><strong>Alias:</strong> NoofNoof, _Bestofnoof</li>
-            <li><strong>Location:</strong> UK — Bristol, Hanham</li>
-            <li><strong>Education:</strong> Hanham Woods</li>
-            <li><strong>Occupation:</strong> School Student</li>
-            <li><strong>Online Activity:</strong> UNKNOWN</li>
-            <li><strong>IP Address:</strong> Unknown</li>
-        </ul>
-    </div>
+<div id="game" class="hidden">
+<div class="name-display" id="nameDisplay">Press Spin</div>
+<button class="primary" onclick="flipNames()">Spin</button>
+
+<div class="question-box" onclick="showQuestion()">
+Tap to reveal question
+</div>
+
+<button class="primary" onclick="addPoint()">Done (+1)</button>
+<button class="danger" onclick="skipQuestion()">Skip</button>
+
+<div class="scoreboard">
+<p id="score"></p>
+<p id="round"></p>
+</div>
+</div>
+
+<div id="winnerScreen" class="hidden">
+<h2 id="winnerText" class="winner-text"></h2>
+<button class="primary" onclick="resetGame()">Play Again</button>
+</div>
 </div>
 
 <script>
-const PASSWORD = "Fan4Xen";
 
-function check() {
-    const input = document.getElementById("password").value;
-    const error = document.getElementById("error");
+let players = [];
+let scores = {};
+let selectionCounts = {};
+let currentPlayer = null;
+let roundCount = 0;
+const maxRounds = 20;
 
-    if (input === PASSWORD) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("content").style.display = "block";
-    } else {
-        error.style.display = "block";
-        error.animate([
-            { transform: "translateX(0)" },
-            { transform: "translateX(-6px)" },
-            { transform: "translateX(6px)" },
-            { transform: "translateX(0)" }
-        ], { duration: 300 });
-    }
+const originalQuestions = [
+/* FULL QUESTION LIST INSERTED */
+`What turns you on instantly?`,
+`What’s your biggest secret fantasy?`,
+`Have you ever faked it?`,
+`What’s the wildest place you’ve hooked up?`,
+`Do you prefer being dominant or submissive?`,
+`Have you ever had a friends-with-benefits?`,
+`What’s your favorite body part on someone?`,
+`Have you ever sent a risky pic?`,
+`Do you like being teased?`,
+`Ever had a one-night stand?`,
+`Have you ever been caught doing something sexual?`,
+`What’s your biggest turn-off?`,
+`Do you like slow or intense?`,
+`Have you ever role-played?`,
+`What’s the most spontaneous thing you’ve done sexually?`,
+`Have you ever had a crush on a friend?`,
+`What’s your favorite position?`,
+`Have you ever hooked up with an ex?`,
+`What makes someone irresistible to you?`,
+`Do you like eye contact during intimate moments?`,
+`Have you ever lied about your body count?`,
+`What’s your guilty pleasure?`,
+`Ever been obsessed with someone physically?`,
+`What’s your favorite kind of foreplay?`,
+`Have you ever flirted just to see if you could?`,
+`Would you date someone just for chemistry?`,
+`Have you ever had a secret hookup?`,
+`What’s the longest you’ve gone without sex?`,
+`Have you ever had a rebound?`,
+`What’s your biggest weakness in bed?`,
+`Do you like talking dirty?`,
+`Have you ever had a sneaky link?`,
+`What outfit drives you crazy?`,
+`Have you ever had a sex dream about someone here?`,
+`What’s your love language in bed?`,
+`Lights on or off?`,
+`Have you ever hooked up at a party?`,
+`What’s the boldest move someone made on you?`,
+`Would you ever film yourself?`,
+`What’s something you’re curious to try?`,
+`Have you ever been jealous over someone casual?`,
+`What’s your toxic trait in relationships?`,
+`Do you like being in control?`,
+`What’s your biggest “hear me out” crush?`,
+`Have you ever been addicted to someone?`,
+`What’s your favorite kind of kiss?`,
+`Have you ever lied to hook up with someone?`,
+`What makes tension irresistible?`,
+`Rough or gentle energy?`,
+`Have you ever been turned on in public?`,
+`What’s your favorite late-night activity?`,
+`Have you ever flirted with someone off-limits?`,
+`What’s the most intense chemistry you’ve felt?`,
+`Emotional or physical connection first?`,
+`Have you ever wanted someone you shouldn’t?`,
+`What’s your biggest fantasy scenario?`,
+`Have you ever hooked up with a coworker/classmate?`,
+`What’s the fastest you’ve fallen physically?`,
+`Have you ever kept someone as backup?`,
+`What instantly kills the mood?`,
+`Do you like being praised?`,
+`Have you ever had a “can’t keep hands off” vibe?`,
+`What’s your secret kink?`,
+`Have you ever kissed two people in one day?`,
+`Favorite place to be kissed?`,
+`Have you ever flirted your way out of trouble?`,
+`What’s the most seductive thing someone can do?`,
+`Do you like tension before intimacy?`,
+`Have you ever sent a risky text?`,
+`What’s your favorite physical compliment?`,
+`Have you ever had a secret situationship?`,
+`Would you try an open relationship?`,
+`What’s your physical type?`,
+`Have you ever been tempted by a friend?`,
+`What’s your most unforgettable hookup?`,
+`Do you still think about your ex?`,
+`Who was your best kiss?`,
+`Have you stalked an ex?`,
+`Would you hook up with an ex again?`,
+`Who broke whose heart last?`,
+`Have you sent “I miss you” and regretted it?`,
+`Was your ex better than you admit?`,
+`Did you fake being over someone?`,
+`Who hurt you most?`,
+`Have you emotionally cheated?`,
+`Would you spin the block?`,
+`Pettiest post-breakup move?`,
+`Compared a new partner to an ex?`,
+`Biggest red flag you ignored?`,
+`Have you drunk-texted an ex?`,
+`Who moved on faster?`,
+`Would you revenge flirt?`,
+`Have you hooked up with an ex’s friend?`,
+`Have you cheated and never been caught?`,
+`Did you regret a breakup?`,
+`Who had the best chemistry?`,
+`Would you apologize to an ex?`,
+`Did you ever think about marrying one?`,
+`Have you hooked up after closure?`,
+`Who still has a tiny piece of your heart?`,
+`Who here would you choose if you had to tonight?`
+];
+
+let remainingQuestions = [];
+let isFlipping = false;
+
+/* ALL LOGIC FUNCTIONS CONTINUE EXACTLY AS BEFORE */
+
+function startGame() {
+    const p1 = player1.value.trim();
+    const p2 = player2.value.trim();
+    if (!p1 || !p2) return alert("Enter both names.");
+    players = [p1, p2];
+    scores = { [p1]: 0, [p2]: 0 };
+    selectionCounts = { [p1]: 0, [p2]: 0 };
+    roundCount = 0;
+    remainingQuestions = [...originalQuestions];
+    setup.classList.add("hidden");
+    game.classList.remove("hidden");
+    updateScoreboard();
 }
-</script>
 
+function flipNames() {
+    if (isFlipping) return;
+    isFlipping = true;
+    currentPlayer = null;
+    const display = document.getElementById("nameDisplay");
+    const p1 = players[0];
+    const p2 = players[1];
+    let chosenIndex;
+    const diff = selectionCounts[p1] - selectionCounts[p2];
+    if (diff >= 2) chosenIndex = 1;
+    else if (diff <= -2) chosenIndex = 0;
+    else chosenIndex = Math.floor(Math.random() * 2);
+    const totalFlips = 25 + Math.floor(Math.random() * 10);
+    let count = 0;
+    let speed = 60;
+    function animateFlip() {
+        display.innerText = players[count % 2];
+        count++;
+        if (count < totalFlips) {
+            speed += 8;
+            setTimeout(animateFlip, speed);
+        } else {
+            currentPlayer = players[chosenIndex];
+            selectionCounts[currentPlayer]++;
+            display.innerText = currentPlayer;
+            isFlipping = false;
+        }
+    }
+    animateFlip();
+}
+
+function showQuestion() {
+    if (!currentPlayer) return alert("Spin first.");
+    if (remainingQuestions.length === 0) {
+        remainingQuestions = [...originalQuestions];
+    }
+    const index = Math.floor(Math.random() * remainingQuestions.length);
+    const question = remainingQuestions.splice(index, 1)[0];
+    document.querySelector(".question-box").innerText = question;
+}
+
+function addPoint() {
+    if (!currentPlayer) return;
+    scores[currentPlayer]++;
+    nextRound();
+}
+
+function skipQuestion() { nextRound(); }
+
+function nextRound() {
+    roundCount++;
+    currentPlayer = null;
+    nameDisplay.innerText = "Press Spin";
+    document.querySelector(".question-box").innerText = "Tap to reveal question";
+    updateScoreboard();
+    if (roundCount >= maxRounds) endGame();
+}
+
+function updateScoreboard() {
+    score.innerText = `${players[0]}: ${scores[players[0]]} | ${players[1]}: ${scores[players[1]]}`;
+    round.innerText = `Round ${roundCount + 1} / ${maxRounds}`;
+}
+
+function endGame() {
+    game.classList.add("hidden");
+    winnerScreen.classList.remove("hidden");
+    const [p1, p2] = players;
+    if (scores[p1] > scores[p2]) winnerText.innerText = `${p1} Wins!`;
+    else if (scores[p2] > scores[p1]) winnerText.innerText = `${p2} Wins!`;
+    else winnerText.innerText = "It's a Tie!";
+}
+
+function resetGame() {
+    players = [];
+    scores = {};
+    selectionCounts = {};
+    currentPlayer = null;
+    roundCount = 0;
+    remainingQuestions = [];
+    player1.value = "";
+    player2.value = "";
+    nameDisplay.innerText = "Press Spin";
+    document.querySelector(".question-box").innerText = "Tap to reveal question";
+    score.innerText = "";
+    round.innerText = "";
+    winnerScreen.classList.add("hidden");
+    game.classList.add("hidden");
+    setup.classList.remove("hidden");
+}
+
+</script>
 </body>
 </html>
