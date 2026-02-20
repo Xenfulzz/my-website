@@ -435,7 +435,7 @@ function flipNames() {
         display.innerText = players[count % 2];
         count++;
         if (count < totalFlips) {
-            speed += 8;
+            speed += 5;
             setTimeout(animateFlip, speed);
         } else {
             currentPlayer = players[chosenIndex];
@@ -509,5 +509,6 @@ function resetGame() {
 </script>
 </body>
 </html>
+
 
 
