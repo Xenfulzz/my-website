@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Innocence</title>
+
+<meta name="theme-color" content="#c9184a">
+<link rel="manifest" href="manifest.json">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff4d8d, #c9184a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: white;
+}
+
+.container {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* TITLE */
+.title {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  animation: smoothPulse 4.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.title .no { opacity: 0.45; }
+
+.title .innocence {
+  text-shadow:
+    0 0 6px rgba(255,255,255,0.6),
+    0 0 18px rgba(255,0,90,0.5);
+}
+
+@keyframes smoothPulse {
+  0% { text-shadow: 0 0 6px rgba(255,255,255,0.5), 0 0 15px rgba(255,0,90,0.4); }
+  50% { text-shadow: 0 0 14px rgba(255,255,255,0.9), 0 0 30px rgba(255,0,90,0.7); }
+  100% { text-shadow: 0 0 6px rgba(255,255,255,0.5), 0 0 15px rgba(255,0,90,0.4); }
+}
+
+.title-divider {
+  height: 2px;
+  width: 70%;
+  margin: 10px auto 25px auto;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+@keyframes winnerBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.bounce {
+  animation: winnerBounce 0.4s ease;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  text-align: center;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary { background: white; color: #c9184a; }
+.danger { background: #ff0a54; color: white; }
+
+.hidden { display: none; }
+
+.name-display {
+  margin: 25px 0;
+  font-size: 28px;
+  font-weight: bold;
+  min-height: 36px;
+}
+
+.question-box {
+  margin-top: 15px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.2);
+  min-height: 80px;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.player-card {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 15px;
+}
+
+.player-score {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.round-display {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1 class="title">
+  <span class="no">No</span>
+  <span class="innocence">Innocence</span>
+</h1>
+
+<div class="title-divider"></div>
+
+<div id="setup">
+  <input id="player1" placeholder="Player 1 Name">
+  <input id="player2" placeholder="Player 2 Name">
+  <button class="primary" onclick="startGame()">Begin</button>
+</div>
+
+<div id="game" class="hidden">
+
+  <div id="nameDisplay" class="name-display">Press Spin</div>
+
+  <div id="questionBox" class="question-box">
+    Question will appear here
+  </div>
+
+  <div id="actionArea">
+    <button class="primary" onclick="handleMain()">Spin</button>
+  </div>
+
+  <div class="scoreboard">
+    <div class="player-card"><div id="score1" class="player-score">0</div></div>
+    <div class="player-card"><div id="score2" class="player-score">0</div></div>
+  </div>
+
+  <div id="roundDisplay" class="round-display"></div>
+
+</div>
+</div>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playClick(freq = 1200, duration = 0.03) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = "square";
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+let players = [];
+let scores = {};
+let currentPlayer = null;
+let round = 0;
+const maxRounds = 10;
+
+const questions = [
+  "What's your biggest turn on?",
+  "What's a secret fantasy you've never shared?",
+  "What's the boldest move you've ever made?"
+];
+
+let remaining = [];
+let state = "waiting";
+
+function startGame() {
+  playClick();
+  const p1 = player1.value.trim();
+  const p2 = player2.value.trim();
+  if (!p1 || !p2) return alert("Enter both names");
+  players = [p1, p2];
+  scores = { [p1]: 0, [p2]: 0 };
+  remaining = [...questions];
+  setup.classList.add("hidden");
+  game.classList.remove("hidden");
+  updateScore();
+}
+
+function handleMain() {
+  playClick();
+  if (state === "waiting") {
+    spinPlayer();
+    state = "spun";
+    setMainButton("Reveal Question");
+    return;
+  }
+  if (state === "spun") {
+    showQuestion();
+    state = "answering";
+    return;
+  }
+  if (state === "answering") {
+    state = "decision";
+    showDecision();
+    return;
+  }
+  if (state === "followup") {
+    scores[currentPlayer] += 2;
+    nextRound();
+  }
+}
+
+function spinPlayer() {
+  let count = 0;
+  let speed = 40;
+  const totalFlips = 30;
+
+  function animateSpin() {
+    nameDisplay.innerText = players[count % 2];
+    playClick(1000, 0.02);
+    count++;
+    if (count < totalFlips) {
+      speed += 4;
+      setTimeout(animateSpin, speed);
+    } else {
+      currentPlayer = players[Math.floor(Math.random()*2)];
+      nameDisplay.innerText = currentPlayer;
+      nameDisplay.classList.add("bounce");
+      setTimeout(() => nameDisplay.classList.remove("bounce"), 400);
+      playClick(700, 0.06);
+    }
+  }
+  animateSpin();
+}
+
+function showQuestion() {
+  if (remaining.length === 0) remaining = [...questions];
+  const q = remaining.splice(Math.floor(Math.random()*remaining.length),1)[0];
+  questionBox.innerText = q;
+  actionArea.innerHTML = `
+    <button class="primary" onclick="handleMain()">Finished Answer</button>
+    <button class="danger" onclick="skipQuestion()">Skip (-1)</button>
+  `;
+}
+
+function showDecision() {
+  actionArea.innerHTML = `
+    <button class="primary" onclick="accept()">Accept (+1)</button>
+    <button class="danger" onclick="challenge()">Challenge (+2)</button>
+  `;
+}
+
+function accept() { playClick(); scores[currentPlayer] += 1; nextRound(); }
+function challenge() {
+  playClick();
+  state = "followup";
+  actionArea.innerHTML = `<button class="primary" onclick="handleMain()">Answer Follow-Up (+2)</button>`;
+}
+function skipQuestion() { playClick(); scores[currentPlayer] -= 1; nextRound(); }
+
+function nextRound() {
+  round++;
+  updateScore();
+  if (round >= maxRounds) return;
+  state = "waiting";
+  currentPlayer = null;
+  nameDisplay.innerText = "Press Spin";
+  questionBox.innerText = "Question will appear here";
+  setMainButton("Spin");
+}
+
+function setMainButton(text) {
+  actionArea.innerHTML = `<button class="primary" onclick="handleMain()">${text}</button>`;
+}
+
+function updateScore() {
+  score1.innerText = scores[players[0]];
+  score2.innerText = scores[players[1]];
+  roundDisplay.innerText = `Round ${round + 1} / ${maxRounds}`;
+}
+</script>
+</body>
+</html>
