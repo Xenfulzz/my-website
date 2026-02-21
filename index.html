@@ -47,9 +47,8 @@ body {
 .title .no { opacity: 0.45; }
 
 .title .innocence {
-  text-shadow:
-    0 0 6px rgba(255,255,255,0.6),
-    0 0 18px rgba(255,0,90,0.5);
+  text-shadow: 0 0 6px rgba(255,255,255,0.6),
+               0 0 18px rgba(255,0,90,0.5);
 }
 
 @keyframes smoothPulse {
@@ -74,10 +73,9 @@ body {
   100% { transform: scale(1); }
 }
 
-.bounce {
-  animation: winnerBounce 0.4s ease;
-}
+.bounce { animation: winnerBounce 0.4s ease; }
 
+/* 🔥 WHITE INPUT FIX */
 input {
   width: 100%;
   padding: 14px;
@@ -87,8 +85,14 @@ input {
   outline: none;
   font-size: 16px;
   text-align: center;
-  background: rgba(255,255,255,0.2);
-  color: white;
+  background: white;
+  color: #c9184a;
+  font-weight: bold;
+}
+
+input::placeholder {
+  color: #c9184a;
+  opacity: 0.6;
 }
 
 button {
@@ -100,6 +104,11 @@ button {
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .primary { background: white; color: #c9184a; }
@@ -134,6 +143,11 @@ button {
   background: rgba(255,255,255,0.15);
   padding: 12px;
   border-radius: 15px;
+}
+
+.player-name {
+  font-size: 14px;
+  opacity: 0.8;
 }
 
 .player-score {
@@ -174,12 +188,19 @@ button {
   </div>
 
   <div id="actionArea">
-    <button class="primary" onclick="handleMain()">Spin</button>
+    <button id="mainBtn" class="primary" onclick="handleMain()">Spin</button>
   </div>
 
+  <!-- 🔥 NAMES ADDED ABOVE SCORES -->
   <div class="scoreboard">
-    <div class="player-card"><div id="score1" class="player-score">0</div></div>
-    <div class="player-card"><div id="score2" class="player-score">0</div></div>
+    <div class="player-card">
+      <div id="name1" class="player-name"></div>
+      <div id="score1" class="player-score">0</div>
+    </div>
+    <div class="player-card">
+      <div id="name2" class="player-name"></div>
+      <div id="score2" class="player-score">0</div>
+    </div>
   </div>
 
   <div id="roundDisplay" class="round-display"></div>
@@ -212,6 +233,9 @@ let scores = {};
 let currentPlayer = null;
 let round = 0;
 const maxRounds = 10;
+let remaining = [];
+let state = "waiting";
+let spinning = false; // 🔥 spin lock
 
 const questions = [
   "What's your biggest turn on?",
@@ -219,24 +243,28 @@ const questions = [
   "What's the boldest move you've ever made?"
 ];
 
-let remaining = [];
-let state = "waiting";
-
 function startGame() {
   playClick();
   const p1 = player1.value.trim();
   const p2 = player2.value.trim();
   if (!p1 || !p2) return alert("Enter both names");
+
   players = [p1, p2];
   scores = { [p1]: 0, [p2]: 0 };
   remaining = [...questions];
+
+  name1.innerText = p1;  // 🔥 show names
+  name2.innerText = p2;
+
   setup.classList.add("hidden");
   game.classList.remove("hidden");
   updateScore();
 }
 
 function handleMain() {
+  if (spinning) return; // 🔥 prevents spam
   playClick();
+
   if (state === "waiting") {
     spinPlayer();
     state = "spun";
@@ -260,6 +288,9 @@ function handleMain() {
 }
 
 function spinPlayer() {
+  spinning = true; // 🔥 lock
+  document.getElementById("mainBtn").disabled = true;
+
   let count = 0;
   let speed = 40;
   const totalFlips = 30;
@@ -277,6 +308,9 @@ function spinPlayer() {
       nameDisplay.classList.add("bounce");
       setTimeout(() => nameDisplay.classList.remove("bounce"), 400);
       playClick(700, 0.06);
+
+      spinning = false; // 🔥 unlock
+      document.getElementById("mainBtn").disabled = false;
     }
   }
   animateSpin();
@@ -319,7 +353,7 @@ function nextRound() {
 }
 
 function setMainButton(text) {
-  actionArea.innerHTML = `<button class="primary" onclick="handleMain()">${text}</button>`;
+  actionArea.innerHTML = `<button id="mainBtn" class="primary" onclick="handleMain()">${text}</button>`;
 }
 
 function updateScore() {
