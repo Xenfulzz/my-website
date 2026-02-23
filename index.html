@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Innocence</title>
+<meta name="theme-color" content="#c9184a">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff4d8d, #c9184a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: white;
+  transition: opacity 0.3s ease;
+}
+
+/* MAIN BOX */
+.container {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  padding: 35px;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.title .no { opacity: 0.45; }
+
+.title .innocence {
+  text-shadow: 0 0 6px rgba(255,255,255,0.6),
+               0 0 18px rgba(255,0,90,0.5);
+}
+
+.title-divider {
+  height: 2px;
+  width: 70%;
+  margin: 10px auto 30px auto;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+.game-button {
+  width: 100%;
+  padding: 16px;
+  margin: 12px 0;
+  border-radius: 16px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: white;
+  color: #c9184a;
+  transition: 0.2s ease;
+}
+
+.game-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* DROPDOWN SECTION */
+
+.dropdown {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 25px;
+}
+
+.dropdown-toggle {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+  background: rgba(0,0,0,0.35);
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.dropdown-content.open {
+  max-height: 500px;
+}
+
+.how-card {
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  padding: 18px;
+  border-radius: 18px;
+  margin-top: 15px;
+}
+
+.how-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.how-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1 class="title">
+    <span class="no">No</span>
+    <span class="innocence">Innocence</span>
+  </h1>
+
+  <div class="title-divider"></div>
+
+  <button class="game-button" onclick="goTo('questionnaire.html')">
+    Questionnaire
+  </button>
+
+  <button class="game-button" onclick="goTo('truth-or-dare.html')">
+    Truth or Dare
+  </button>
+
+</div>
+
+<!-- DROPDOWN UNDER MAIN BOX -->
+
+<div class="dropdown">
+
+  <div class="dropdown-toggle" onclick="toggleDropdown()">
+    <span>How To Play</span>
+    <span class="arrow" id="arrow">▼</span>
+  </div>
+
+  <div class="dropdown-content" id="dropdownContent">
+
+    <div class="how-card">
+      <h3>Questionnaire</h3>
+      <p>
+        Enter both player names and start.
+        Spin to randomly choose who answers.
+        The selected player answers the question.
+        The other player decides to Accept (+1) or Challenge (+2).
+        15 rounds. Highest score wins.
+      </p>
+    </div>
+
+    <div class="how-card">
+      <h3>Truth or Dare</h3>
+      <p>
+        Enter both names and spin the wheel.
+        The wheel selects who must choose.
+        They must pick Truth or Dare and complete it.
+        No skipping.
+        15 rounds.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function goTo(page) {
+  document.body.style.opacity = "0";
+  setTimeout(() => {
+    window.location.href = page;
+  }, 300);
+}
+
+function toggleDropdown() {
+  const content = document.getElementById("dropdownContent");
+  const arrow = document.getElementById("arrow");
+
+  content.classList.toggle("open");
+
+  if (content.classList.contains("open")) {
+    arrow.style.transform = "rotate(180deg)";
+  } else {
+    arrow.style.transform = "rotate(0deg)";
+  }
+}
+
+</script>
+
+</body>
+</html>

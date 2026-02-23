@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Innocence – Truth or Dare</title>
+<meta name="theme-color" content="#c9184a">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff4d8d, #c9184a);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: white;
+  transition: opacity 0.3s ease;
+}
+
+.container {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.title .no { opacity: 0.45; }
+
+.title .innocence {
+  text-shadow: 0 0 6px rgba(255,255,255,0.6),
+               0 0 18px rgba(255,0,90,0.5);
+}
+
+.title-divider {
+  height: 2px;
+  width: 70%;
+  margin: 10px auto 25px auto;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  background: white;
+  color: #c9184a;
+  font-weight: bold;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary { background: white; color: #c9184a; }
+.truth { background: white; color: #c9184a; }
+.dare { background: #ff0a54; color: white; }
+
+.hidden { display: none; }
+
+.card-box {
+  margin-top: 20px;
+  padding: 22px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.15);
+  min-height: 100px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.wheel-container {
+  position: relative;
+  margin: 20px auto;
+  width: 300px;
+  height: 300px;
+}
+
+#wheel {
+  border-radius: 50%;
+  border: 6px solid #ff4d8d;
+  background: white;
+}
+
+/* Proper downward pointer */
+.pointer {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 26px solid white; /* THIS is the fix */
+
+  z-index: 10;
+}
+
+.result-text {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.back-text {
+  margin-top: 25px;
+  font-size: 16px;
+  opacity: 0.85;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1 class="title">
+  <span class="no">No</span>
+  <span class="innocence">Innocence</span>
+</h1>
+
+<div class="title-divider"></div>
+
+<div id="setup">
+  <input id="player1" placeholder="Player 1 Name">
+  <input id="player2" placeholder="Player 2 Name">
+  <button class="primary" onclick="startGame()">Begin</button>
+</div>
+
+<div id="game" class="hidden">
+
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="300" height="300"></canvas>
+  </div>
+
+  <div id="cardBox" class="card-box">
+    Spin the wheel
+  </div>
+
+  <div id="actionArea">
+    <button class="primary" onclick="spinWheel()">Spin the Wheel</button>
+  </div>
+
+</div>
+</div>
+
+<div class="back-text" onclick="goBack()">← Go Back</div>
+
+<script>
+
+let players = [];
+let currentPlayer = null;
+let round = 0;
+const maxRounds = 15;
+
+let rotation = 0;
+let spinning = false;
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const truths = [
+  "Have you ever had sex on the first night meeting someone?",
+  "What’s the most sexual thing you’ve done in public?",
+  "Have you ever faked an orgasm?",
+  "Who here would you most want to sleep with?",
+  "What’s your favorite position?",
+  "Have you ever had a secret hookup?",
+  "What’s the longest you’ve gone without sex?",
+  "Have you ever had sex somewhere you could’ve been caught?",
+  "What’s something sexual you’re curious about but haven’t tried?",
+  "Have you ever thought about cheating?",
+  "What’s your favorite body part on someone?",
+  "Have you ever made out with someone just for attention?",
+  "What’s the most dominant or submissive you’ve ever been?",
+  "Have you ever had a crush on someone older?",
+  "What’s the most daring thing you’ve done because you were turned on?",
+  "Have you ever sent nudes to more than one person?",
+  "What’s the kinkiest thing you’re into?",
+  "Have you ever cheated sexually?",
+  "What’s your biggest sexual insecurity?",
+  "Have you ever hooked up with someone you regret?",
+  "Have you ever fantasized about your friend’s partner?",
+  "What’s the dirtiest message you’ve ever sent?",
+  "Have you ever recorded yourself doing something sexual?",
+  "What’s something sexual you’ve done that no one here knows about?",
+  "Have you ever been caught naked?",
+  "What’s your biggest turn-on during foreplay?",
+  "Have you ever begged someone for it?",
+  "Have you ever had a friends-with-benefits situation?",
+  "What’s the most intense sexual experience you’ve had?",
+  "Have you ever lied about your experience level?"
+];
+
+const dares = [
+  "Kiss the other player for 10 seconds.",
+  "Sit on the other player's lap until the next round.",
+  "Let the other player choose where to kiss you.",
+  "Whisper exactly what you’d do to the other player.",
+  "Remove one item of clothing.",
+  "Let the other player run their hands over you for 5 seconds.",
+  "Send a flirty message to someone right now.",
+  "Give the other player a slow kiss on the neck.",
+  "Describe how you’d seduce someone in this room.",
+  "Let the other player pick a dare for you.",
+  "Kiss the other player slowly for 5 seconds.",
+  "Let the other player choose where to touch you (over clothes).",
+  "Describe your favorite way to be kissed.",
+  "Stand up and give the other player a slow spin and hug.",
+  "Let the other player sit very close to you until next round.",
+  "Send a bold emoji to your last text conversation.",
+  "Let the other player ask you one very personal question.",
+  "Show the last person you searched on social media.",
+  "Admit out loud who you find most attractive.",
+  "Hold eye contact with the other player for 15 seconds without laughing.",
+  "Call someone and say something suggestive.",
+  "Show the most recent risky photo in your camera roll.",
+  "Let the other player choose a body part you must compliment.",
+  "Switch seats and stay physically close until next spin.",
+  "Let the other player hold your waist for 10 seconds.",
+  "Admit who you’d most want to hook up with here.",
+  "Let the other player blindfold you for one round.",
+  "Kiss the other player anywhere except the lips.",
+  "Let someone scroll your last 5 DMs.",
+  "Tell the other player your biggest fantasy."
+];
+
+function startGame() {
+  const p1 = player1.value.trim();
+  const p2 = player2.value.trim();
+  if (!p1 || !p2) return alert("Enter both names");
+
+  players = [p1, p2];
+
+  setup.classList.add("hidden");
+  game.classList.remove("hidden");
+
+  drawWheel();
+}
+
+function drawWheel() {
+  const slices = 8;
+  const sliceAngle = (2 * Math.PI) / slices;
+
+  const colors = [
+    "#ff8fb8", "#ff4d8d",
+    "#ff8fb8", "#ff4d8d",
+    "#ff2e75", "#c9184a",
+    "#ff2e75", "#c9184a"
+  ];
+
+  ctx.clearRect(0, 0, 300, 300);
+
+  for (let i = 0; i < slices; i++) {
+    const start = i * sliceAngle + rotation;
+    const end = start + sliceAngle;
+
+    ctx.beginPath();
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,150,start,end);
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    ctx.strokeStyle = "#c9184a";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(150,150);
+    ctx.rotate(start + sliceAngle/2);
+    ctx.fillStyle = "white";
+    ctx.font = "bold 15px sans-serif";
+    ctx.fillText(players[i % 2] || "", 85, 5);
+    ctx.restore();
+  }
+}
+
+function spinWheel() {
+  if (spinning) return;
+  spinning = true;
+
+  let velocity = Math.random() * 0.25 + 0.45;
+  const friction = 0.985;
+
+  function animate() {
+    velocity *= friction;
+    rotation += velocity;
+    drawWheel();
+
+    if (velocity > 0.003) {
+      requestAnimationFrame(animate);
+    } else {
+      finishSpin();
+    }
+  }
+
+  animate();
+}
+
+function finishSpin() {
+  rotation = rotation % (2 * Math.PI);
+
+  const sliceAngle = (2 * Math.PI) / 8;
+
+  const pointerAngle = -Math.PI / 2;
+
+  const adjusted =
+    (pointerAngle - rotation + 2 * Math.PI) % (2 * Math.PI);
+
+  const index = Math.floor(adjusted / sliceAngle);
+
+  currentPlayer = players[index % 2];
+
+  cardBox.innerHTML =
+    `<div class="result-text">${currentPlayer}'s Turn</div>`;
+
+  actionArea.innerHTML = `
+    <button class="truth" onclick="giveTruth()">Truth</button>
+    <button class="dare" onclick="giveDare()">Dare</button>
+  `;
+
+  spinning = false;
+}
+
+function giveTruth() {
+  const q = truths[Math.floor(Math.random() * truths.length)];
+  cardBox.innerText = q;
+  showNextSpin();
+}
+
+function giveDare() {
+  const d = dares[Math.floor(Math.random() * dares.length)];
+  cardBox.innerText = d;
+  showNextSpin();
+}
+
+function showNextSpin() {
+  round++;
+
+  if (round >= maxRounds) {
+    cardBox.innerText = "Game Over";
+    actionArea.innerHTML =
+      `<button class="primary" onclick="location.reload()">Play Again</button>`;
+    return;
+  }
+
+  actionArea.innerHTML =
+    `<button class="primary" onclick="spinWheel()">Next Spin</button>`;
+}
+
+function goBack() {
+  document.body.style.opacity = "0";
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 300);
+}
+
+</script>
+</body>
+</html>
