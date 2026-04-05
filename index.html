@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <title>Wheel</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
 body {
@@ -24,7 +24,18 @@ body {
   gap: 80px;
 }
 
-.wheel-container { position: relative; }
+.wheel-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
+}
 
 canvas {
   width: 650px;
@@ -74,7 +85,6 @@ button {
   pointer-events: none;
 }
 
-/* MODAL WITH DIM */
 .modal {
   position: fixed;
   top: 0;
@@ -92,12 +102,11 @@ button {
   padding: 40px;
   border-radius: 16px;
   text-align: center;
-  z-index: 20;
 }
 
 .winner-name {
-  font-size: 40px;
-  font-weight: 900;
+  font-size: 36px;
+  font-weight: 800;
   color: #ec4899;
   margin-bottom: 20px;
 }
@@ -109,7 +118,6 @@ button {
   height: 12px;
 }
 
-/* BURST ANIMATION */
 @keyframes explode {
   to {
     transform: translate(var(--x), var(--y)) rotate(720deg);
@@ -126,6 +134,10 @@ button {
   <div class="wheel-container">
     <div class="pointer"></div>
     <canvas id="wheel" width="650" height="650"></canvas>
+
+    <div class="footer">
+      @Tailored Treasures • @Cheeky Wee Cheesecake
+    </div>
   </div>
 
   <div id="panel" class="panel">
@@ -145,6 +157,7 @@ Daisy</textarea>
 
 </div>
 
+<!-- WINNER -->
 <div id="winnerModal" class="modal">
   <div class="modal-content">
     <div id="winnerText" class="winner-name"></div>
@@ -152,11 +165,23 @@ Daisy</textarea>
   </div>
 </div>
 
+<!-- SETTINGS -->
 <div id="settingsModal" class="modal">
   <div class="modal-content">
+
     <div id="rigUI" style="display:none;">
+      <label style="font-weight:700;">Rig Mode Enabled</label>
+      <br><br>
+
       <select id="rigSelect" style="width:100%; padding:8px;"></select>
+
+      <br><br>
+
+      <button onclick="disableRig()" style="background:#be185d;">
+        Disable Rig
+      </button>
     </div>
+
     <br>
     <button onclick="closeSettings()">Close</button>
   </div>
@@ -174,14 +199,13 @@ let rigEnabled = false;
 /* AUDIO */
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-/* SOFTER TICK */
 function playTick() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
   osc.type = "sine";
   osc.frequency.value = 700;
-  gain.gain.value = 0.08;
+  gain.gain.value = 0.07;
 
   osc.connect(gain);
   gain.connect(audioCtx.destination);
@@ -191,7 +215,6 @@ function playTick() {
   osc.stop(audioCtx.currentTime + 0.04);
 }
 
-/* WIN SOUND */
 function playWinSound() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
@@ -227,6 +250,11 @@ function updateRigDropdown() {
     opt.textContent = name;
     select.appendChild(opt);
   });
+}
+
+function disableRig() {
+  rigEnabled = false;
+  document.getElementById("rigUI").style.display = "none";
 }
 
 function openSettings() {
@@ -274,7 +302,11 @@ function drawWheel() {
     ctx.rotate(angle + arc/2);
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.font = "700 18px Inter";
+
+    ctx.font = entries.length < 10 ? "800 22px Inter" :
+               entries.length < 20 ? "700 18px Inter" :
+               "600 14px Inter";
+
     ctx.fillText(name,260,5);
     ctx.restore();
   });
@@ -285,7 +317,6 @@ function drawWheel() {
   ctx.fill();
 }
 
-/* CONFETTI BURST */
 function createConfetti() {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
@@ -315,7 +346,7 @@ function createConfetti() {
 }
 
 function openWinner(name) {
-  document.getElementById("winnerText").innerText = name;
+  document.getElementById("winnerText").innerText = "Winner is: " + name;
   document.getElementById("winnerModal").style.display = "flex";
   createConfetti();
 }
@@ -348,7 +379,7 @@ function spinWheel() {
   const target = 360*6 + (270 - (index*segmentAngle + segmentAngle/2));
 
   function animate() {
-    current += (target - current) * 0.045;
+    current += (target - current) * 0.035;
 
     const seg = Math.floor((current % 360) / segmentAngle);
     if (seg !== lastSegment) {
