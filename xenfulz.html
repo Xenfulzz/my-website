@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xenfulz ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-hot: #ff2d7e;
+    --pink-light: #ff85b8;
+    --pink-pale: #ffd6e8;
+    --pink-bg: #fff0f6;
+    --pink-mid: #ff5fa0;
+    --cream: #fff9fc;
+    --outline: #2a0014;
+    --shadow: #c4005e;
+    --yellow: #ffe45e;
+    --purple: #c084fc;
+    --twitch: #9147ff;
+    --tiktok-dark: #010101;
+    --yt-red: #ff0000;
+    --discord-blue: #5865f2;
+    --donate-gold: #f59e0b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--pink-bg);
+    background-image:
+      radial-gradient(circle at 15% 20%, #ffb3d5 0%, transparent 40%),
+      radial-gradient(circle at 85% 75%, #e8aaff 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, #fff0f6 0%, transparent 60%);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  /* Floating background doodles */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle 4px at 10% 15%, #ff85b8 100%, transparent 100%),
+      radial-gradient(circle 6px at 90% 10%, #ff85b8 100%, transparent 100%),
+      radial-gradient(circle 3px at 20% 85%, #c084fc 100%, transparent 100%),
+      radial-gradient(circle 5px at 80% 80%, #ff85b8 100%, transparent 100%),
+      radial-gradient(circle 4px at 50% 5%, #ffe45e 100%, transparent 100%),
+      radial-gradient(circle 3px at 5% 50%, #ff2d7e 100%, transparent 100%),
+      radial-gradient(circle 5px at 95% 45%, #c084fc 100%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: floatStar linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes floatStar {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-30px) rotate(360deg); opacity: 0.3; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* Avatar / Header Card */
+  .header-card {
+    width: 100%;
+    background: white;
+    border: 4px solid var(--outline);
+    border-radius: 28px;
+    padding: 32px 28px 28px;
+    text-align: center;
+    box-shadow: 6px 6px 0px var(--outline);
+    position: relative;
+    overflow: visible;
+    margin-bottom: 20px;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.7) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .header-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 90px;
+    background: linear-gradient(135deg, var(--pink-hot), var(--pink-light), var(--purple));
+    border-radius: 22px 22px 60% 60% / 22px 22px 40px 40px;
+  }
+
+  .avatar-wrap {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 12px;
+    z-index: 2;
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 5px solid var(--outline);
+    background: linear-gradient(135deg, var(--pink-hot) 0%, var(--purple) 100%);
+    box-shadow: 4px 4px 0 var(--outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .avatar-ring {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 4px dashed var(--pink-hot);
+    animation: spinRing 6s linear infinite;
+  }
+
+  @keyframes spinRing {
+    to { transform: rotate(360deg); }
+  }
+
+  .name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: var(--outline);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+    margin-top: 6px;
+    text-shadow: 3px 3px 0 var(--pink-light);
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--pink-hot);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .badge {
+    background: var(--yellow);
+    border: 2.5px solid var(--outline);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--outline);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 8px;
+    box-shadow: 2px 2px 0 var(--outline);
+    animation: wiggle 2s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+
+  /* Social Buttons */
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 22px;
+    background: white;
+    border: 4px solid var(--outline);
+    border-radius: 20px;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--outline);
+    box-shadow: 5px 5px 0 var(--outline);
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .btn:nth-child(1) { animation-delay: 0.1s; }
+  .btn:nth-child(2) { animation-delay: 0.2s; }
+  .btn:nth-child(3) { animation-delay: 0.3s; }
+  .btn:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes slideIn {
+    from { transform: translateX(-40px) scale(0.9); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+    border-radius: 16px;
+    pointer-events: none;
+  }
+
+  .btn:hover {
+    transform: translate(-3px, -3px) scale(1.02);
+    box-shadow: 8px 8px 0 var(--outline);
+  }
+
+  .btn:active {
+    transform: translate(2px, 2px) scale(0.98);
+    box-shadow: 3px 3px 0 var(--outline);
+  }
+
+  .btn-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: 3px solid var(--outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 2px 2px 0 var(--outline);
+  }
+
+  .btn-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .btn-label {
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+
+  .btn-sub {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  .btn-arrow {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Platform colours */
+  .twitch-btn { background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%); }
+  .twitch-btn .btn-icon { background: var(--twitch); color: white; }
+
+  .tiktok-btn { background: linear-gradient(135deg, #fce4f3 0%, #ffd6eb 100%); }
+  .tiktok-btn .btn-icon { background: var(--tiktok-dark); color: white; }
+
+  .youtube-btn { background: linear-gradient(135deg, #ffe4e4 0%, #ffd6d6 100%); }
+  .youtube-btn .btn-icon { background: var(--yt-red); color: white; }
+
+  .discord-btn { background: linear-gradient(135deg, #e4e8ff 0%, #d6dbff 100%); }
+  .discord-btn .btn-icon { background: var(--discord-blue); color: white; }
+
+  /* Donate button - smaller */
+  .donate-wrap {
+    width: 100%;
+    margin-top: 6px;
+    animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s both;
+  }
+
+  .donate-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 20px;
+    background: linear-gradient(135deg, var(--yellow), #fbbf24);
+    border: 3.5px solid var(--outline);
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--outline);
+    box-shadow: 4px 4px 0 var(--outline);
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+    letter-spacing: 0.5px;
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .donate-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: rgba(255,255,255,0.4);
+    transform: skewX(-20deg);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -60%; }
+    100% { left: 160%; }
+  }
+
+  .donate-btn:hover {
+    transform: translate(-2px, -2px) scale(1.03);
+    box-shadow: 6px 6px 0 var(--outline);
+  }
+
+  .donate-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--outline);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 22px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--pink-mid);
+    opacity: 0.7;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeIn 1s 0.8s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.7; }
+  }
+
+  /* Decorative blobs */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 { width: 300px; height: 300px; background: var(--pink-hot); top: -80px; left: -80px; }
+  .blob-2 { width: 250px; height: 250px; background: var(--purple); bottom: -60px; right: -60px; }
+  .blob-3 { width: 200px; height: 200px; background: var(--yellow); bottom: 30%; left: -60px; }
+
+  /* Twitch SVG icon */
+  .twitch-icon svg { width: 22px; height: 22px; fill: white; }
+  .tiktok-icon svg { width: 20px; height: 20px; fill: white; }
+  .yt-icon svg { width: 24px; height: 24px; fill: white; }
+  .discord-icon svg { width: 22px; height: 22px; fill: white; }
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header-card">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar">✦</div>
+    </div>
+    <div class="name">Xenfulz</div>
+    <div class="tagline">🌸 Content Creator 🌸</div>
+    <div class="badge">⭐ Follow the journey!</div>
+  </div>
+
+  <!-- Social Links -->
+  <div class="links">
+
+    <!-- Twitch -->
+    <a href="https://www.twitch.tv/xenfulzhd" target="_blank" class="btn twitch-btn">
+      <div class="btn-icon twitch-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+        </svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">Twitch</span>
+        <span class="btn-sub">Live streams & more</span>
+      </div>
+      <span class="btn-arrow">→</span>
+    </a>
+
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@.xenfulz" target="_blank" class="btn tiktok-btn">
+      <div class="btn-icon tiktok-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.26 8.26 0 004.83 1.56V6.79a4.85 4.85 0 01-1.06-.1z"/>
+        </svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">TikTok</span>
+        <span class="btn-sub">Short clips & vibes</span>
+      </div>
+      <span class="btn-arrow">→</span>
+    </a>
+
+    <!-- YouTube -->
+    <a href="https://www.youtube.com/@Xenfulz" target="_blank" class="btn youtube-btn">
+      <div class="btn-icon yt-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">YouTube</span>
+        <span class="btn-sub">Videos & highlights</span>
+      </div>
+      <span class="btn-arrow">→</span>
+    </a>
+
+    <!-- Discord -->
+    <a href="https://discord.gg/xEDHUDab" target="_blank" class="btn discord-btn">
+      <div class="btn-icon discord-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+      </div>
+      <div class="btn-text">
+        <span class="btn-label">Discord</span>
+        <span class="btn-sub">Join the community</span>
+      </div>
+      <span class="btn-arrow">→</span>
+    </a>
+
+  </div>
+
+  <!-- Donate -->
+  <div class="donate-wrap">
+    <a href="https://streamelements.com/xenfulzhd/tip" target="_blank" class="donate-btn">
+      💖 Donate
+    </a>
+  </div>
+
+  <div class="footer">made with 🩷 for xenfulz</div>
+</div>
+
+<script>
+  // Spawn floating stars/sparkles
+  const starChars = ['✦', '✧', '⋆', '★', '🌸', '💫', '✨', '💗'];
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.classList.add('star');
+    s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.fontSize = (0.7 + Math.random() * 1.2) + 'rem';
+    s.style.animationDuration = (3 + Math.random() * 5) + 's';
+    s.style.animationDelay = (Math.random() * 5) + 's';
+    s.style.opacity = 0.3 + Math.random() * 0.4;
+    starsEl.appendChild(s);
+  }
+
+  // Button click burst effect
+  document.querySelectorAll('.btn, .donate-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const burst = document.createElement('span');
+      burst.style.cssText = `
+        position:absolute; width:8px; height:8px; background:rgba(255,255,255,0.9);
+        border-radius:50%; pointer-events:none; z-index:10;
+        left:${e.offsetX - 4}px; top:${e.offsetY - 4}px;
+        animation: burst 0.4s ease-out forwards;
+      `;
+      this.appendChild(burst);
+      setTimeout(() => burst.remove(), 400);
+    });
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes burst {
+    to { transform: scale(8); opacity: 0; }
+  }`;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
